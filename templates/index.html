@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+ {% block page_content %}
+    <div class="jumbotron jumbotron-fluid">
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">
+            <dl>
+                <dt>Request:</dt>
+                <dd><code>{{ method }} {{ url }}</code></dd>
+            
+                <dt>Browser:</dt>
+                <dd><code>{{ user_agent }}</code></dd>
+
+                <dt>IP Address:</dt>
+                <dd><code>{{ remote_addr }}</code></dd>
+            </dl>
+        </p>
+    </div>
+ {% endblock %}
