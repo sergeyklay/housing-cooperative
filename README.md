@@ -1,4 +1,4 @@
-# Flasky
+# Housing Cooperative
 
 ## Install dependencies
 
