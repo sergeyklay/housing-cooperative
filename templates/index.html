@@ -1,19 +1,30 @@
 {% extends "base.html" %}
 
  {% block page_content %}
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron">
         <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">
-            <dl>
-                <dt>Request:</dt>
-                <dd><code>{{ method }} {{ url }}</code></dd>
-            
-                <dt>Browser:</dt>
-                <dd><code>{{ user_agent }}</code></dd>
-
-                <dt>IP Address:</dt>
-                <dd><code>{{ remote_addr }}</code></dd>
-            </dl>
+        <p>The local date and time is:
+            <strong>{{ moment(current_time).format('LLL') }}</strong>
         </p>
+        <hr>
+        <p>That was:
+            <strong>{{ moment(current_time).fromNow(refresh=true) }}</strong>
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Request:
+                    <strong><code>{{ method }} {{ url }}</code></strong>
+                </p>
+                <p>IP Address:
+                    <strong>{{ remote_addr }}</strong>
+                </p>
+                <p>Browser:
+                    <strong>{{ user_agent }}</strong>
+                </p>
+            </div>
+        </div>
     </div>
  {% endblock %}

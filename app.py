@@ -8,9 +8,12 @@
 from flask import Flask, render_template
 from flask import request
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from datetime import datetime
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 
 @app.route('/')
@@ -23,6 +26,7 @@ def index():
         url=request.url,
         user_agent=user_agent,
         remote_addr=request.remote_addr,
+        current_time=datetime.utcnow(),
     )
 
 @app.route('/user/<name>')
