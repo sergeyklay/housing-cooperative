@@ -5,33 +5,41 @@
 # For the full copyright and license information, please view
 # the LICENSE file that was distributed with this source code.
 
-from flask import Flask, render_template
-from flask import request
+from flask import Flask, flash, redirect, render_template, session, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
-from datetime import datetime
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+
+
+class NameForm(FlaskForm):
+    name = StringField('What is your name?', validators=[DataRequired()])
+    submit = SubmitField('submit')
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hard to guess string'
+
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    user_agent = request.headers.get('User-Agent', 'Undefined')
+    form = NameForm()
+    if form.validate_on_submit():
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('Looks like you have changed your name!')
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
 
     return render_template(
         'index.html',
-        method=request.method,
-        url=request.url,
-        user_agent=user_agent,
-        remote_addr=request.remote_addr,
-        current_time=datetime.utcnow(),
+        name=session.get('name'),
+        form=form,
     )
-
-@app.route('/user/<name>')
-def user(name):
-    return render_template('user.html', name=name)
 
 @app.errorhandler(404)
 def page_not_found(e):
